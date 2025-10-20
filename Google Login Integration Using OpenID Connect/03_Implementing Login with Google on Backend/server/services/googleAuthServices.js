@@ -1,7 +1,6 @@
-const clientId =
-  "341508182755-lcdl3f8mjnntpk1f9amuoa4i36vl6st5.apps.googleusercontent.com";
+const clientId = "<your client id>";
 
-const clientSecret = "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";
+const clientSecret = "<your client secret>";
 const redirectUrl = "http://localhost:5500/callback.html";
 
 export async function fetchUserFromGoogle(code) {

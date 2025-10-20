@@ -1,10 +1,9 @@
 const button = document.querySelector("button");
 
 const baseURL = "http://localhost:4000";
-const clientId =
-  "341508182755-lcdl3f8mjnntpk1f9amuoa4i36vl6st5.apps.googleusercontent.com";
+const clientId = "<your client id>";
 
-const clientSecret = "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";
+const clientSecret = "<your client secret>";
 const redirectUrl = "http://localhost:4000/auth/google/callback";
 const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&scope=openid email profile&redirect_uri=${redirectUrl}`;
 
