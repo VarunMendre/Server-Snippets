@@ -1,8 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+const clientId = process.env.GOOGLE_CLIENT_ID;
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
 const button = document.querySelector("button");
 
-const clientId = "<your client id>";
-
-const clientSecret = "<your client secret>";
 const redirectUrl = "http://localhost:5500/callback.html";
 const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&scope=openid email profile&redirect_uri=${redirectUrl}`;
 
@@ -17,8 +20,6 @@ window.addEventListener("message", ({ data }) => {
     fetchIdToken(data.code);
   }
 });
-
-
 
 async function fetchIdToken(code) {
   console.log("Running fetchIdToken function...");
