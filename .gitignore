@@ -1,0 +1,13 @@
+.env
+*.env
+.env.local
+.env.development
+.env.test
+.env.production
+client_secret*.json
+credentials*.json
+service-account*.json
+google-credentials*.json
+*.pem
+*.p12
+

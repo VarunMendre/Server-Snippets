@@ -6,7 +6,7 @@ import { verifyGoogleIdToken } from "./googleOAuthLibrary.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const clientId = process.env.GOOGLE_CLIENT_ID || "341508182755-lcdl3f8mjnntpk1f9amuoa4i36vl6st5.apps.googleusercontent.com";
+const clientId = process.env.GOOGLE_CLIENT_ID;
 const TOKEN_FILE = path.join(__dirname, "latest-token.txt");
 
 function readToken() {

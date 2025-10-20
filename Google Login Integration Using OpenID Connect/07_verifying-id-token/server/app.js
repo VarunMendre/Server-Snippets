@@ -1,10 +1,13 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 import { fetchUserFromGoogle } from "./services/googleAuthService.js";
 import { writeFile } from "fs/promises";
 import users from "./usersDB.json" with { type: "json" };
 import sessions from "./sessionsDB.json" with { type: "json" };
+
+dotenv.config();
 
 const app = express();
 const PORT = 4000;
@@ -20,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("/auth/google", (req, res) => {
-  const clientId = "341508182755-lcdl3f8mjnntpk1f9amuoa4i36vl6st5.apps.googleusercontent.com";
+  const clientId = process.env.GOOGLE_CLIENT_ID;
   const redirectUrl = "http://localhost:4000/auth/google/callback";
   const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&scope=openid email profile&redirect_uri=${redirectUrl}`;
   res.redirect(authUrl);

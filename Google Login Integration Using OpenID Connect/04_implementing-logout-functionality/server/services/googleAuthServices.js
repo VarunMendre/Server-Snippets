@@ -1,7 +1,8 @@
-const clientId =
-  "341508182755-lcdl3f8mjnntpk1f9amuoa4i36vl6st5.apps.googleusercontent.com";
+import dotenv from "dotenv";
+dotenv.config();
 
-const clientSecret = "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";
+const clientId = process.env.GOOGLE_CLIENT_ID;
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 const redirectUrl = "http://localhost:5500/callback.html";
 
 export async function fetchUserFromGoogle(code) {
