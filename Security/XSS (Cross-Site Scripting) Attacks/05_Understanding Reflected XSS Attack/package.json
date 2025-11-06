@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "dompurify": "^3.3.0",
+    "express": "^5.1.0",
+    "jsdom": "^27.1.0"
+  },
+  "type": "module"
+}
