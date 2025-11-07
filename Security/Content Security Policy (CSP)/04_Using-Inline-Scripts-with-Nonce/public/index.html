@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    /> -->
+    <style nonce="${nonce}"></style>
+    <title>Social App</title>    
+    <link rel="stylesheet" href="style.css">
+    <script src="/script.js" type="module" integrity="sha256-4SwZlzXDHeg43Cu1llelOYbq56GhlWPoyKtr9IMfNks="></script>
+  </head>
+
+  <body class="bg-gray-100 p-6">
+    <div class="max-w-xl mx-auto">
+      <!-- <img
+        src="https://images.unsplash.com/photo-1762172619623-507e76f3d3a3?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&q=60&w=1000"
+        alt=""
+      /> -->
+      <h1 class="text-2xl font-bold mb-4">Simple Social Media</h1>
+      <!-- <img src="XSS-Comment.png" alt="" /> -->
+      <form id="postForm" class="mb-4">
+        <textarea
+          id="content"
+          class="w-full p-2 border rounded"
+          rows="3"
+          placeholder="Write your post..."
+        ></textarea>
+        <button
+          class="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+          type="submit"
+        >
+          Post
+        </button>
+      </form>
+      <div id="posts"></div>
+
+      <script nonce="${nonce}">console.log("Hii 1");</script>
+      <script nonce="${nonce}">console.log("Hii 2");</script>
+    </div>
+  </body>
+</html>
