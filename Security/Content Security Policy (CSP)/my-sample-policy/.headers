@@ -1,0 +1,11 @@
+[
+  {
+    "applyTo": "tickets",
+    "headers": [
+      {
+        "name": "content-security-policy",
+        "value": "default-src 'none'; img-src 'self' cdn.sanity.io data: ; script-src 'self' 'sha256-PO+jk6R4bEnnv6N6NuzBxtLpXxUmJXJ5oisW56NQxpY=' registration.checkin.no; style-src 'self' 'unsafe-inline' registration.checkin.no; font-src 'self';connect-src 'self' o4508455274217472.ingest.de.sentry.io fhoo4r9z.apicdn.sanity.io *.checkin.no"
+      }
+    ]
+  }
+]
