@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <!-- same site top-level navigation -->
+
+    <!-- sec-fetch-mode :navigate
+         sec-fetch-site :same-origin -->
+    <a href="/about.html">About Page</a>
+    <br />
+
+    <!-- sec-fetch-mode :navigate
+    sec-fetch-site :same-origin  -->
+    <a href="/networking.png">Networking Image</a>
+    <br />
+
+    <!-- sec-fetch-mode : no-cors
+         sec-fetch-site :same-origin -->
+    <img src="/networking.png" alt="" style="width: 500px" /><br><br>
+
+
+
+    <!-- cross site top-level navigation -->
+
+
+    <!-- sec-fetch-mode : navigate
+    sec-fetch-site : cross-site -->
+    <a href="https://google.com/">google.com</a>
+    <br><br>
+
+
+    <!-- sec-fetch-mode :navigate
+    sec-fetch-site :cross-site -->
+    <form action="https://procodrr.com/" method="get">
+      <button>Redirect</button>
+    </form>
+
+    <br>
+    <br />
+
+    <!-- sec-fetch-mode :navigate
+         sec-fetch-site :cross-site -->
+
+    <a href="https://procodrr.com/assets/images/backend%20with%20nodejs.webp"
+      >NodeJs img</a
+    >
+
+    <br /><br>
+    <!-- its not top-level navigation, its an cross-site -->
+    
+    <!-- sec-fetch-mode :no-cors
+    sec-fetch-site :cross-site -->
+    <img
+      src="https://procodrr.com/assets/images/backend%20with%20nodejs.webp"
+      alt=""
+      style="width: 500px"
+    />  
+  </body>
+</html>
