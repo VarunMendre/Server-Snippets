@@ -1,0 +1,8 @@
+URL with our oun code: 
+
+https://varunmendre-nodejs-bucket.s3.ap-south-1.amazonaws.com/app.js?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=<your-aws-access-key>%2F20251126%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20251126T031852Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=ad1323ab37a6a32df43a4ca0ded18cadf59919e0076573d07287e83cb3d2489f
+
+
+URL with preSigner URL: 
+
+https://varunmendre-nodejs-bucket.s3.ap-south-1.amazonaws.com/app.js?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=<your-aws-access-key>%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20251126T031953Z&X-Amz-Expires=900&X-Amz-Signature=18f5dd85857ad9946a4263945458d64a76c9443df874cb107efb1715cc7e9e9e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject

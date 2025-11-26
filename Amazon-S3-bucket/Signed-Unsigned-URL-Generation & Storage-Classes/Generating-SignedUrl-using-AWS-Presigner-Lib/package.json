@@ -1,0 +1,17 @@
+{
+  "name": "18_generating-signedurl-using-aws-presigner-lib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.940.0",
+    "@aws-sdk/s3-request-presigner": "^3.940.0"
+  },
+  "type": "module"
+}
