@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-cloudfront": "^3.940.0"
+  },
+  "type": "module"
+}
