@@ -1,0 +1,21 @@
+{
+  "name": "13_simple-backend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file=.env app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "razorpay": "^2.9.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1"
+  }
+}

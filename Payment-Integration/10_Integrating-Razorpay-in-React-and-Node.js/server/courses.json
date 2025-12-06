@@ -1,0 +1,38 @@
+[
+    {
+        "id": "64fa1c9e3b7d92001c4a7f21",
+        "name": "Node.js Fundamentals Course",
+        "price": 4999,
+        "image": "https://imgs.search.brave.com/8RMWD2R0RozHVGL3a9XzCvCwsDKSHT_VFUb6CLwXPnY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxNS8w/NC8yMy8xNy80MS9u/b2RlLWpzLTczNjM5/OV8xMjgwLnBuZw"
+    },
+    {
+        "id": "64fb2d7a9f4c11002e6d3c48",
+        "name": "The Complete JavaScript Course",
+        "price": 2999,
+        "image": "https://imgs.search.brave.com/EWwYQX3kvukWhQL2pf7LhyEcqq4tsssxGAQSEnIYAZE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly8xMDAw/bG9nb3MubmV0L3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDIwLzA5/L0phdmFTY3JpcHQt/TG9nby01MDB4MzEz/LmpwZw"
+    },
+    {
+        "id": "64f9ef2b7a3c450018a9d6b2",
+        "name": "The Complete React Course",
+        "price": 3999,
+        "image": "https://logos-world.net/wp-content/uploads/2023/08/React-Logo.png"
+    },
+    {
+        "id": "64fc0a6d2f8a5300291f7e63",
+        "name": "The Complete Next.js Course",
+        "price": 1999,
+        "image": "https://logowik.com/content/uploads/images/nextjs7685.logowik.com.webp"
+    },
+    {
+        "id": "64f8d1a03b5c76000b1a8d95",
+        "name": "RegEx Pro Course",
+        "price": 999,
+        "image": "https://imgs.search.brave.com/EqjVUynl9d0Ic1L-vbm22ga8Xdh-2b3a268OtMy_juo/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4u/ZHJpYmJibGUuY29t/L3VzZXJzLzQzOTY2/Ni9zY3JlZW5zaG90/cy8xMDE3NzcyMC9t/ZWRpYS82NDFiZjg1/MzdlMmI5MmY3NGNl/Nzk3NDZhYWI4YzQ0/My5qcGc_cmVzaXpl/PTQwMHgzMDAmdmVy/dGljYWw9Y2VudGVy"
+    },
+    {
+        "id": "64fbd2c14e6f82001f2b5a7c",
+        "name": "Git and GitHub Fundamentals",
+        "price": 1499,
+        "image": "https://imgs.search.brave.com/ojqvVx5b3Y0J03FoRQZpn3Hn-CVhvbOzZ5eM8ZyEQb8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzUwLzlk/LzA4LzUwOWQwOGNj/MzhkZWE3NTkxMTI4/NThiYzZkODVhOTM2/LmpwZw"
+    }
+]
