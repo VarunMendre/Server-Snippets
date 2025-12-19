@@ -1,0 +1,182 @@
+{
+  "id": "evt_1Sg0320lFnwouU5DiEDKw8pE",
+  "object": "event",
+  "api_version": "2025-11-17.clover",
+  "created": 1766136751,
+  "data": {
+    "object": {
+      "id": "in_1Sg02u0lFnwouU5D2fvEWB0q",
+      "object": "invoice",
+      "account_country": "US",
+      "account_name": null,
+      "account_tax_ids": null,
+      "amount_due": 1000,
+      "amount_overpaid": 0,
+      "amount_paid": 1000,
+      "amount_remaining": 0,
+      "amount_shipping": 0,
+      "application": null,
+      "attempt_count": 1,
+      "attempted": true,
+      "auto_advance": false,
+      "automatic_tax": {
+        "disabled_reason": null,
+        "enabled": false,
+        "liability": null,
+        "provider": null,
+        "status": null
+      },
+      "automatically_finalizes_at": null,
+      "billing_reason": "subscription_cycle",
+      "collection_method": "charge_automatically",
+      "created": 1768809071,
+      "currency": "usd",
+      "custom_fields": null,
+      "customer": "cus_TdEwJTpHZNOJ06",
+      "customer_account": null,
+      "customer_address": {
+        "city": null,
+        "country": "IN",
+        "line1": null,
+        "line2": null,
+        "postal_code": null,
+        "state": null
+      },
+      "customer_email": "varun@gmail.com",
+      "customer_name": "Varun Mendre",
+      "customer_phone": null,
+      "customer_shipping": null,
+      "customer_tax_exempt": "none",
+      "customer_tax_ids": [],
+      "default_payment_method": null,
+      "default_source": null,
+      "default_tax_rates": [],
+      "description": null,
+      "discounts": [],
+      "due_date": null,
+      "effective_at": 1768812671,
+      "ending_balance": 0,
+      "footer": null,
+      "from_invoice": null,
+      "hosted_invoice_url": "https://invoice.stripe.com/i/acct_1SZwvz0lFnwouU5D/test_YWNjdF8xU1p3dnowbEZud291VTVELF9UZEdha1VWR3RvTklRWlNnVlZ0RENkZ3dQbzU0MXBYLDE1NjY3NzU1Mg02000VrLcFoV?s=ap",
+      "invoice_pdf": "https://pay.stripe.com/invoice/acct_1SZwvz0lFnwouU5D/test_YWNjdF8xU1p3dnowbEZud291VTVELF9UZEdha1VWR3RvTklRWlNnVlZ0RENkZ3dQbzU0MXBYLDE1NjY3NzU1Mg02000VrLcFoV/pdf?s=ap",
+      "issuer": {
+        "type": "self"
+      },
+      "last_finalization_error": null,
+      "latest_revision": null,
+      "lines": {
+        "object": "list",
+        "data": [
+          {
+            "id": "il_1SrDEx0lFnwouU5D6pnq4rm3",
+            "object": "line_item",
+            "amount": 1000,
+            "currency": "usd",
+            "description": "1 × OrderXpress (at $10.00 / month)",
+            "discount_amounts": [],
+            "discountable": true,
+            "discounts": [],
+            "invoice": "in_1Sg02u0lFnwouU5D2fvEWB0q",
+            "livemode": false,
+            "metadata": {},
+            "parent": {
+              "invoice_item_details": null,
+              "subscription_item_details": {
+                "invoice_item": null,
+                "proration": false,
+                "proration_details": {
+                  "credited_items": null
+                },
+                "subscription": "sub_1SfySz0lFnwouU5DKy71nX5o",
+                "subscription_item": "si_TdEwOwtnAzPXcZ"
+              },
+              "type": "subscription_item_details"
+            },
+            "period": {
+              "end": 1771487471,
+              "start": 1768809071
+            },
+            "pretax_credit_amounts": [],
+            "pricing": {
+              "price_details": {
+                "price": "price_1Sfy9w0lFnwouU5DzaN6lBkd",
+                "product": "prod_TX13jYlBVqSusA"
+              },
+              "type": "price_details",
+              "unit_amount_decimal": "1000"
+            },
+            "quantity": 1,
+            "subtotal": 1000,
+            "taxes": []
+          }
+        ],
+        "has_more": false,
+        "total_count": 1,
+        "url": "/v1/invoices/in_1Sg02u0lFnwouU5D2fvEWB0q/lines"
+      },
+      "livemode": false,
+      "metadata": {},
+      "next_payment_attempt": null,
+      "number": "SMLPGFKV-0002",
+      "on_behalf_of": null,
+      "parent": {
+        "quote_details": null,
+        "subscription_details": {
+          "metadata": {},
+          "subscription": "sub_1SfySz0lFnwouU5DKy71nX5o"
+        },
+        "type": "subscription_details"
+      },
+      "payment_settings": {
+        "default_mandate": null,
+        "payment_method_options": {
+          "acss_debit": null,
+          "bancontact": null,
+          "card": {
+            "request_three_d_secure": "automatic"
+          },
+          "customer_balance": null,
+          "konbini": null,
+          "payto": null,
+          "sepa_debit": null,
+          "us_bank_account": null
+        },
+        "payment_method_types": null
+      },
+      "period_end": 1768809071,
+      "period_start": 1766130671,
+      "post_payment_credit_notes_amount": 0,
+      "pre_payment_credit_notes_amount": 0,
+      "receipt_number": null,
+      "rendering": null,
+      "shipping_cost": null,
+      "shipping_details": null,
+      "starting_balance": 0,
+      "statement_descriptor": null,
+      "status": "paid",
+      "status_transitions": {
+        "finalized_at": 1768812671,
+        "marked_uncollectible_at": null,
+        "paid_at": 1768812671,
+        "voided_at": null
+      },
+      "subtotal": 1000,
+      "subtotal_excluding_tax": 1000,
+      "test_clock": "clock_1Sg02q0lFnwouU5D9ezRVWcy",
+      "total": 1000,
+      "total_discount_amounts": [],
+      "total_excluding_tax": 1000,
+      "total_pretax_credit_amounts": [],
+      "total_taxes": [],
+      "webhooks_delivered_at": 1768809071
+    }
+  },
+  "livemode": false,
+  "pending_webhooks": 1,
+  "request": {
+    "id": null,
+    "idempotency_key": null
+  },
+  "type": "invoice.payment_succeeded"
+}
