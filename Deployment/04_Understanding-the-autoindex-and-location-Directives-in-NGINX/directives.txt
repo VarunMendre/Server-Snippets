@@ -1,0 +1,12 @@
+| Directive    | Think of it as     |
+| ------------ | ------------------ |
+| `root`       | Where files live   |
+| `try_files`  | Safety check       |
+| `alias`      | Path replacement   |
+| `index`      | Default file       |
+| `return`     | Immediate response |
+| `rewrite`    | URL surgery        |
+| `autoindex`  | Folder listing     |
+| `proxy_pass` | Backend routing    |
+
+
