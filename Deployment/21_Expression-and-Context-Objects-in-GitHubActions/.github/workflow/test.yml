@@ -1,0 +1,13 @@
+name: My-First-Workflow
+on: [push,workflow_dispatch]
+jobs: 
+  my-first-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Current Working Directory
+        run: pwd
+
+
+
+

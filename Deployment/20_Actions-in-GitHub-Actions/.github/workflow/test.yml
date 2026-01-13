@@ -1,0 +1,35 @@
+name: My-First-Workflow
+on: [push,workflow_dispatch]
+jobs: 
+  my-first-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Current Working Directory
+        run: pwd
+
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: List all files
+        run: ls -a
+
+      - name: Print Workflow file content
+        run: cat ./.github/workflows/main.yml
+
+  my-second-job:
+   runs-on: ubuntu-latest
+
+   steps: 
+    - name: Node Version before
+      run: node --version
+
+    - name: Setting up Node Env
+      uses: actions/setup-node@v6
+      with: 
+        node-version: 24
+    
+    - name: Node Version after
+      run: node --version
+
+

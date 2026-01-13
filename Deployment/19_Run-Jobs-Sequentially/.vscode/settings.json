@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "https://www.schemastore.org/github-action.json": "file:///e%3A/VARUN/NodeJs_crash_course/NodeJs/Section_20_Deployment-and-CI-CD-Pipelines/21_Run-Jobs-Sequentially/.github/workflow/test.yml"
+  }
+}
