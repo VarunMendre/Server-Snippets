@@ -1,0 +1,153 @@
+import express from "express";
+import crypto from "crypto";
+import todoDB from "./todosDB.json" with { type: "json" };
+import { writeFile } from "fs/promises";
+
+const app = express();
+const PORT = 3000;
+app.use(express.json());
+
+app.get("/api/todos", (req, res) => {
+  const todos = todoDB;
+  res.status(200).json({
+    success: true,
+    data: todos,
+  });
+});
+
+app.post("/api/todo", async (req, res) => {
+  const { title, description } = req.body;
+
+  if (!title || !description) {
+    return res
+      .status(400)
+      .json({ error: "Title and description are required." });
+  }
+
+  const todoID = crypto.randomBytes(16).toString("hex");
+
+  const newTodo = {
+    id: todoID,
+    title,
+    description,
+    completed: false,
+  };
+
+  // Check is id already exists
+  const idExists = todoDB.some((todo) => todo.id === todoID);
+  if (idExists) {
+    return res
+      .status(500)
+      .json({ error: "ID collision occurred. Please try again." });
+  }
+
+  // Append new todo
+  await writeFile(
+    "todosDB.json",
+    JSON.stringify([...todoDB, newTodo], null, 2),
+  );
+
+  res.status(201).json({
+    success: true,
+    message: "Todo created successfully",
+    data: newTodo,
+  });
+});
+
+// Get todo by ID
+
+app.get("/api/todos/:id", (req, res) => {
+  const { id } = req.params;
+
+  const todo = todoDB.find((todo) => todo.id === id);
+
+  if (!todo) {
+    return res.status(404).json({ error: "Todo not found." });
+  }
+
+  res.status(200).json({
+    success: true,
+    data: todo,
+  });
+});
+
+// Update a TODO (Full Update)
+
+app.put("/api/todos/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, description, completed } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: "ID is required." });
+  }
+
+  if (!title || !description || completed === undefined) {
+    return res
+      .status(400)
+      .json({ error: "Title, description and completed status are required." });
+  }
+
+  const todoIndex = todoDB.findIndex((todo) => todo.id === id);
+
+  if (todoIndex === -1) {
+    return res.status(404).json({ error: "Todo not found." });
+  }
+
+  const updatedTodo = {
+    id,
+    title,
+    description,
+    completed,
+  };
+
+  todoDB[todoIndex] = updatedTodo;
+
+  await writeFile("todosDB.json", JSON.stringify(todoDB, null, 2));
+
+  res.status(200).json({
+    success: true,
+    message: "Todo updated successfully",
+    data: updatedTodo,
+  });
+});
+
+// Update TODO Status Only
+
+app.patch("/api/todos/:id/status", async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: "ID is required." });
+  }
+
+  const todoIndex = todoDB.findIndex((todo) => todo.id) === id;
+
+  if (todoIndex === -1) {
+    return res.status(404).json({ error: "Todo not found." });
+  }
+
+    const todoData = todoDB[todoIndex];
+    console.log(todoDB);
+    return 
+
+  if (todoData.completed === true) {
+    return res.status(400).json({ error: "Todo is already completed." });
+  }
+
+  try {
+    todoData.completed = true;
+    await writeFile("todosDB.json", JSON.stringify(todoDB, null, 2));
+
+    return res.status(200).json({
+      success: true,
+      message: "Todo status updated successfully",
+      data: todoDB[todoIndex],
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to update todo status." });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
