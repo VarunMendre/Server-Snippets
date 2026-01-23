@@ -120,22 +120,20 @@ app.patch("/api/todos/:id/status", async (req, res) => {
     return res.status(400).json({ error: "ID is required." });
   }
 
-  const todoIndex = todoDB.findIndex((todo) => todo.id) === id;
+  const todoIndex = todoDB.findIndex((todo) => todo.id === id);
 
   if (todoIndex === -1) {
     return res.status(404).json({ error: "Todo not found." });
   }
 
-    const todoData = todoDB[todoIndex];
-    console.log(todoDB);
-    return 
+  const todoData = todoDB[todoIndex];
 
   if (todoData.completed === true) {
     return res.status(400).json({ error: "Todo is already completed." });
   }
 
   try {
-    todoData.completed = true;
+    todoDB[todoIndex].completed = true;
     await writeFile("todosDB.json", JSON.stringify(todoDB, null, 2));
 
     return res.status(200).json({
@@ -147,6 +145,35 @@ app.patch("/api/todos/:id/status", async (req, res) => {
     return res.status(500).json({ error: "Failed to update todo status." });
   }
 });
+
+// Delete a Todo
+
+app.delete("/api/todos/:id", async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: "ID is required." });
+  }
+
+
+  const todoIndex = todoDB.findIndex((todo) => todo.id === id);
+
+  if( todoIndex === -1) {
+    return res.status(404).json({ error: "Todo not found." });
+  }
+
+  console.log(todoIndex);
+  // return;
+
+  todoDB.splice(todoIndex, 1);
+
+  await writeFile("todosDB.json", JSON.stringify(todoDB, null, 2));
+
+  return res.status(200).json({
+    success: true,
+    message: "Todo deleted successfully",
+  });
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
