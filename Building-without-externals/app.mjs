@@ -41,17 +41,21 @@ app.post("/api/todo", async (req, res) => {
       .json({ error: "ID collision occurred. Please try again." });
   }
 
-  // Append new todo
-  await writeFile(
-    "todosDB.json",
-    JSON.stringify([...todoDB, newTodo], null, 2),
-  );
+  try {
+    // Append new todo
+    await writeFile(
+      "todosDB.json",
+      JSON.stringify([...todoDB, newTodo], null, 2),
+    );
 
-  res.status(201).json({
-    success: true,
-    message: "Todo created successfully",
-    data: newTodo,
-  });
+    res.status(201).json({
+      success: true,
+      message: "Todo created successfully",
+      data: newTodo,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to create todo." });
+  }
 });
 
 // Get todo by ID
@@ -102,18 +106,22 @@ app.put("/api/todos/:id", async (req, res) => {
 
   todoDB[todoIndex] = updatedTodo;
 
-  await writeFile("todosDB.json", JSON.stringify(todoDB, null, 2));
+  try {
+    await writeFile("todosDB.json", JSON.stringify(todoDB, null, 2));
 
-  res.status(200).json({
-    success: true,
-    message: "Todo updated successfully",
-    data: updatedTodo,
-  });
+    res.status(200).json({
+      success: true,
+      message: "Todo updated successfully",
+      data: updatedTodo,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to update todo." });
+  }
 });
 
 // Update TODO Status Only
 
-app.patch("/api/todos/:id/status", async (req, res) => {
+app.patch("/api/todo/:id/status", async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
@@ -155,10 +163,9 @@ app.delete("/api/todos/:id", async (req, res) => {
     return res.status(400).json({ error: "ID is required." });
   }
 
-
   const todoIndex = todoDB.findIndex((todo) => todo.id === id);
 
-  if( todoIndex === -1) {
+  if (todoIndex === -1) {
     return res.status(404).json({ error: "Todo not found." });
   }
 
@@ -167,13 +174,44 @@ app.delete("/api/todos/:id", async (req, res) => {
 
   todoDB.splice(todoIndex, 1);
 
-  await writeFile("todosDB.json", JSON.stringify(todoDB, null, 2));
+  try {
+    await writeFile("todosDB.json", JSON.stringify(todoDB, null, 2));
 
-  return res.status(200).json({
-    success: true,
-    message: "Todo deleted successfully",
-  });
-})
+    return res.status(200).json({
+      success: true,
+      message: "Todo deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to delete todo." });
+  }
+});
+
+// Delete All Completed TODOS
+
+app.delete("/api/todos", async (req, res) => {
+  const { completed } = req.query;
+
+  if (completed !== "true") {
+    return res.status(400).json({ error: "Invalid query parameter." });
+  }
+
+  const AllTodos = todoDB.filter((todo) => todo.completed !== true);
+
+  if (AllTodos.length === 0) {
+    return res.status(404).json({ error: "No completed todos found." });
+  }
+
+  try {
+    await writeFile("todosDB.json", JSON.stringify(AllTodos, null, 2));
+
+    res.status(200).json({
+      success: true,
+      message: "All completed todos deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to delete completed todos." });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
