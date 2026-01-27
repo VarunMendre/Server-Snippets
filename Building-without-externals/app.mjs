@@ -1,11 +1,109 @@
 import express from "express";
 import crypto from "crypto";
 import todoDB from "./todosDB.json" with { type: "json" };
+import sessionsDB from "./sessionsDB.json" with { type: "json" };
+import usersDB from "./usersDB.json " with { type: "json" };
 import { writeFile } from "fs/promises";
 
 const app = express();
 const PORT = 3000;
 app.use(express.json());
+
+app.post("/api/register", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: "missing fields" });
+  }
+
+  // user already exists
+  const exists = usersDB.find((user) => user.email === email);
+
+  if (exists) {
+    return res
+      .status(409)
+      .json({ message: "User has already been registered" });
+  }
+
+  const userId = crypto.randomBytes(16).toString("hex");
+  const hashedPassword = crypto
+    .createHash("sha256")
+    .update(email)
+    .digest("hex");
+
+  const userData = {
+    userId: userId,
+    username: name,
+    email: email,
+    password: hashedPassword,
+  };
+
+  try {
+    await writeFile(
+      "usersDB.json",
+      JSON.stringify([...usersDB, userData], null, 2),
+    );
+
+    return res.status(201).json({
+      message: "User has been registered successfully",
+      user: userData,
+    });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "Something went wrong", details: error.message });
+  }
+});
+
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Fields are missing" });
+  }
+
+  const user = usersDB.find((usr) => usr.email === email);
+  const hashedPassword = crypto
+    .createHash("sha256")
+    .update(email)
+    .digest("hex");
+  
+  if (hashedPassword !== user.password) {
+    return res.status(401).json({ error: "Wrong password try again" });
+  }
+
+  const sessionID = crypto
+    .createHash("sha256")
+    .update(user.userId)
+    .digest("hex");
+
+  const now = Date.now();
+  const expiresIn = 1000 * 60 * 60;
+  const expiryTime = now + expiresIn;
+
+  const sessionData = {
+    sessionID: sessionID,
+    userId: user.userId,
+    expiresAt: expiryTime,
+  };
+
+  try {
+    await writeFile(
+      "sessionsDB.json",
+      JSON.stringify([...sessionsDB, sessionData], null, 2),
+    );
+
+    return res.status(200).json({
+      message: "User LoggedIn Successfully",
+      userData: user,
+      sessionData: sessionData,
+    });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "Something went wrong", details: error.message });
+  }
+});
 
 app.get("/api/todos", (req, res) => {
   const todos = todoDB;
