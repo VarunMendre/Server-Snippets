@@ -28,7 +28,7 @@ app.post("/api/register", async (req, res) => {
   const userId = crypto.randomBytes(16).toString("hex");
   const hashedPassword = crypto
     .createHash("sha256")
-    .update(email)
+    .update(password)
     .digest("hex");
 
   const userData = {
@@ -36,7 +36,7 @@ app.post("/api/register", async (req, res) => {
     username: name,
     email: email,
     password: hashedPassword,
-  };
+  };     
 
   try {
     await writeFile(
@@ -63,11 +63,12 @@ app.post("/api/login", async (req, res) => {
   }
 
   const user = usersDB.find((usr) => usr.email === email);
+
   const hashedPassword = crypto
     .createHash("sha256")
-    .update(email)
+    .update(password)
     .digest("hex");
-  
+
   if (hashedPassword !== user.password) {
     return res.status(401).json({ error: "Wrong password try again" });
   }
@@ -105,6 +106,22 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+// Check Authenticated
+const checkAuth = async function (req, res, next) {
+  const token = req.headers.authorization;
+  
+  if (token) {
+    return next();
+  }
+  return res.status(401).json({error: "No Authorized token"})
+}
+
+
+app.get("/", checkAuth, (req, res) => {
+  res.status(200).json({ message: "Authorized User" });
+});
+
+// Get All todos 
 app.get("/api/todos", (req, res) => {
   const todos = todoDB;
   res.status(200).json({
@@ -113,6 +130,7 @@ app.get("/api/todos", (req, res) => {
   });
 });
 
+// Add an Todo
 app.post("/api/todo", async (req, res) => {
   const { title, description } = req.body;
 
