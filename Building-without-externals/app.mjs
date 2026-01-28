@@ -2,7 +2,7 @@ import express from "express";
 import crypto from "crypto";
 import todoDB from "./todosDB.json" with { type: "json" };
 import sessionsDB from "./sessionsDB.json" with { type: "json" };
-import usersDB from "./usersDB.json " with { type: "json" };
+import usersDB from "./usersDB.json" with { type: "json" };
 import { writeFile } from "fs/promises";
 
 const app = express();
@@ -36,7 +36,7 @@ app.post("/api/register", async (req, res) => {
     username: name,
     email: email,
     password: hashedPassword,
-  };     
+  };
 
   try {
     await writeFile(
@@ -44,9 +44,10 @@ app.post("/api/register", async (req, res) => {
       JSON.stringify([...usersDB, userData], null, 2),
     );
 
+    const { password, ...safeUser } = userData;
     return res.status(201).json({
       message: "User has been registered successfully",
-      user: userData,
+      user: safeUser,
     });
   } catch (error) {
     return res
@@ -64,6 +65,10 @@ app.post("/api/login", async (req, res) => {
 
   const user = usersDB.find((usr) => usr.email === email);
 
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
   const hashedPassword = crypto
     .createHash("sha256")
     .update(password)
@@ -73,10 +78,7 @@ app.post("/api/login", async (req, res) => {
     return res.status(401).json({ error: "Wrong password try again" });
   }
 
-  const sessionID = crypto
-    .createHash("sha256")
-    .update(user.userId)
-    .digest("hex");
+  const sessionID = crypto.randomBytes(32).toString("hex");
 
   const now = Date.now();
   const expiresIn = 1000 * 60 * 60;
@@ -94,9 +96,10 @@ app.post("/api/login", async (req, res) => {
       JSON.stringify([...sessionsDB, sessionData], null, 2),
     );
 
+    const { password, ...safeUser } = user;
     return res.status(200).json({
       message: "User LoggedIn Successfully",
-      userData: user,
+      userData: safeUser,
       sessionData: sessionData,
     });
   } catch (error) {
@@ -109,21 +112,56 @@ app.post("/api/login", async (req, res) => {
 // Check Authenticated
 const checkAuth = async function (req, res, next) {
   const token = req.headers.authorization;
-  
-  if (token) {
-    return next();
+
+  if (!token) {
+    return res.status(401).json({ error: "No Authorized token" });
   }
-  return res.status(401).json({error: "No Authorized token"})
-}
 
+  // Find in SessionDB and extract userId from that
 
-app.get("/", checkAuth, (req, res) => {
-  res.status(200).json({ message: "Authorized User" });
+  const session = sessionsDB.find((session) => session.sessionID === token);
+
+  // if not found or its expired then delete first from collection and returned
+  if (!session || Date.now() > session.expiresAt) {
+    try {
+      const sessionIndex = sessionsDB.findIndex(
+        (session) => session.sessionID === token,
+      );
+
+      if (sessionIndex !== -1) {
+        sessionsDB.splice(sessionIndex, 1);
+        await writeFile("sessionsDB.json", JSON.stringify(sessionsDB, null, 2));
+      }
+      
+    } catch (err) {
+      next(err);
+    }
+
+    return res.status(401).json({
+      error: "Session is not found or its expired, please login first",
+    });
+  }
+
+  const user = usersDB.find((user) => user.userId === session.userId);
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  req.user = user;
+  next();
+};
+
+app.use(checkAuth);
+
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Authorized User", userData: req.user });
 });
 
-// Get All todos 
+// Get All todos
 app.get("/api/todos", (req, res) => {
-  const todos = todoDB;
+  const todos = todoDB.filter((todo) => todo.userID === req.user.userId);
+
   res.status(200).json({
     success: true,
     data: todos,
@@ -144,6 +182,7 @@ app.post("/api/todo", async (req, res) => {
 
   const newTodo = {
     id: todoID,
+    userID: req.user.userId,
     title,
     description,
     completed: false,
@@ -185,6 +224,10 @@ app.get("/api/todos/:id", (req, res) => {
     return res.status(404).json({ error: "Todo not found." });
   }
 
+  if (todo.userID !== req.user.userId) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
   res.status(200).json({
     success: true,
     data: todo,
@@ -213,8 +256,12 @@ app.put("/api/todos/:id", async (req, res) => {
     return res.status(404).json({ error: "Todo not found." });
   }
 
+  if (todoDB[todoIndex].userID !== req.user.userId) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
   const updatedTodo = {
-    id,
+    ...todoDB[todoIndex],
     title,
     description,
     completed,
@@ -250,6 +297,9 @@ app.patch("/api/todo/:id/status", async (req, res) => {
     return res.status(404).json({ error: "Todo not found." });
   }
 
+  if (todoDB[todoIndex].userID !== req.user.userId) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
   const todoData = todoDB[todoIndex];
 
   if (todoData.completed === true) {
@@ -285,6 +335,9 @@ app.delete("/api/todos/:id", async (req, res) => {
     return res.status(404).json({ error: "Todo not found." });
   }
 
+   if (todoDB[todoIndex].userID !== req.user.userId) {
+     return res.status(403).json({ error: "Forbidden" });
+   }
   console.log(todoIndex);
   // return;
 
@@ -311,7 +364,7 @@ app.delete("/api/todos", async (req, res) => {
     return res.status(400).json({ error: "Invalid query parameter." });
   }
 
-  const AllTodos = todoDB.filter((todo) => todo.completed !== true);
+  const AllTodos = todoDB.filter((todo) => !(todo.completed === true && todo.userID === req.user.userId));
 
   if (AllTodos.length === 0) {
     return res.status(404).json({ error: "No completed todos found." });
