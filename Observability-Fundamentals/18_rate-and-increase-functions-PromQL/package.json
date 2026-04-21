@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch app.js"
+  },
+  "dependencies": {
+    "prom-client": "^15.1.3"
+  }
+}
