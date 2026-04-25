@@ -1,0 +1,8 @@
+groups: 
+  - name: express-app
+    rules:
+      - alert: HighErrorRate
+        expr: sum(rate(http_request_total{status=~"4..|5.."}[1m])) / sum(rate(http_request_total[1m])) * 100 > 5
+      
+      - alert: HighCpuUsage
+        expr: rate(process_cpu_seconds_total[1m]) * 100  > 90
