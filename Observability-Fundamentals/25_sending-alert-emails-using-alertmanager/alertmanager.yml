@@ -1,0 +1,22 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'varunmm0404@gmail.com'
+  smtp_auth_username: 'varunmm0404@gmail.com'
+  smtp_auth_password: 'jqxq cups yfpd vhpc'
+  smtp_require_tls: true
+
+route:
+  receiver: 'gmail-notifications'
+  group_wait: 5s
+  group_interval: 5s
+  repeat_interval: 30s
+
+receivers:
+  - name: 'gmail-notifications'
+    email_configs:
+      - to: 'varunmm0404@gmail.com'
+        send_resolved: true
+
+    webhook_configs:
+      - url: 'http://localhost:4000/alert'
+        send_resolved: true
