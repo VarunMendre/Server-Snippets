@@ -1,0 +1,3 @@
+1. create a file with exact this name Dockerfile  (no extension)
+2. prepare the config file 
+3. run this command to build you're image :- docker build -t first-docker-img . 
