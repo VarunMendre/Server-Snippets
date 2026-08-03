@@ -1,3 +1,8 @@
 1. create a file with exact this name Dockerfile  (no extension)
 2. prepare the config file 
-3. run this command to build you're image :- docker build -t first-docker-img . 
+3. run this command to build you're image :- docker build -t first-docker-img (-t means tag you're img name)
+4. open free account on hub.docker.com 
+5. create a repo and give a name to it 
+6. after creating you'll see a command copy the name of that image and create same image with that name
+7. run : docker login on terminal 
+8. run : docker push <image-name>
