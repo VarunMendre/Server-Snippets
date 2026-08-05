@@ -156,7 +156,7 @@ function sortByAgeWithoutBuiltIn(arr) {
   let n = result.length;
 
   for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n - i; i++) {
+    for (let j = 0; j < n - i - 1; j++) {
       if (result[j].age > result[j + 1].age) {
         let temp = result[j];
         result[j] = result[j + 1];
@@ -252,17 +252,12 @@ Expected Output: [3, 4]
 */
 
 function findIntersection(arr1, arr2) {
-  let n = arr1.length;
-  let m = arr2.length;
+  const st = new Set(arr1);
 
-  let result = [];
+  const result = [];
 
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < m; j++) {
-      if (arr1[i] == arr2[j]) {
-        result.push(arr1[i]);
-      }
-    }
+  for (const num of arr2) {
+    if (st.has(num)) result.push(num);
   }
 
   return result;
@@ -337,6 +332,9 @@ num = 5, num > highest(10) (No) else num > secondHighest && num != highest (yes)
 */
 
 function secondHighestNumber(arr) {
+  if(arr.length < 2)
+    return null;
+  
   let n = arr.length;
 
   let highest = -Infinity;
@@ -411,11 +409,84 @@ function userWhoNeverOrder(users, orders) {
     orderedUsers.add(order.userId);
   }
 
-  return users.filter(user => !orderedUsers.has(user.id));
+  return users.filter((user) => !orderedUsers.has(user.id));
 }
 
 const user3 = userWhoNeverOrder(users2, orders2);
-console.log(user3);
+// console.log(user3);
 
+// 18. Find Top Spending Customer
 
+const orders3 = [
+  { customerId: 1, amount: 200 },
+  { customerId: 2, amount: 900 },
+  { customerId: 1, amount: 500 },
+  { customerId: 2, amount: 300 },
+];
 
+function topSendingCustomer(arr) {
+  const customers = Object.values(
+    arr.reduce((acc, order) => {
+      if (!acc[order.customerId]) {
+        acc[order.customerId] = {
+          customerId: order.customerId,
+          totalSpent: 0,
+        };
+      }
+
+      acc[order.customerId].totalSpent += order.amount;
+      return acc;
+    }, {}),
+  );
+
+  let highest = customers[0];
+
+  for (const customer of customers) {
+    if (customer.totalSpent > highest.totalSpent) highest = customer;
+  }
+
+  return highest;
+}
+
+const result2 = topSendingCustomer(orders3);
+// console.log(result2);
+
+// 19. Convert Array into Object
+
+const users3 = [
+  { id: 1, name: "John" },
+  { id: 2, name: "Alice" },
+];
+
+function convertArrayIntoObject(arr) {
+  const result = {};
+
+  for (const user of arr) {
+    result[user.id] = user;
+  }
+  return result;
+}
+
+const result3 = convertArrayIntoObject(users3);
+// console.log(result3);
+
+// 20. Count API Requests Per Endpoint
+
+const logs = ["/login", "/users", "/login", "/products", "/users", "/login"];
+
+function requestPerEndpoint(arr) {
+  const result = {};
+
+  for (let log of arr) {
+    if (!result[log]) {
+      result[log] = 0;
+    }
+
+    result[log]++;
+  }
+
+  return result;
+}
+
+const result4 = requestPerEndpoint(logs);
+console.log(result4);
