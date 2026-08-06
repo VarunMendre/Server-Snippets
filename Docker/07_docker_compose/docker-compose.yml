@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: users
+
+  redis:
+    image: redis:latest
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+
+# commands: 
+# 1. docker compose up : install & run all the services from .yml file and start a stack container 
+# 2. docker compose down: it will remove all the containers that we're in the stack 
+# 3. docker compose up -d : (-d means run in detached mode) means run in background
