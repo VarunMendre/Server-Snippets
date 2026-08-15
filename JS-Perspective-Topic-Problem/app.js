@@ -489,4 +489,4 @@ function requestPerEndpoint(arr) {
 }
 
 const result4 = requestPerEndpoint(logs);
-console.log(result4);
+// console.log(result4);
