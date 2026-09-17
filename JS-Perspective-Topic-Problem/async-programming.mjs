@@ -311,16 +311,97 @@ console.log("B");
 
 // console.log("5");
 
-Promise.resolve().then(() => {
-  console.log("A");
+// Promise.resolve().then(() => {
+//   console.log("A");
+
+//   Promise.resolve().then(() => {
+//     console.log("B");
+//   });
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("C");
+// });
+
+// console.log("D");
+
+/*
+async function worker(tasks, result, nextIndex) {
+  while (nextIndex.value < tasks.length) {
+    const index = nextIndex.value;
+    nextIndex.value++;
+
+    result[index] = await tasks[index]();
+  }
+}
+
+async function runWithConcurrency(tasks, limit) {
+  const result = new Array(tasks.length);
+  const workers = [];
+
+  const nextIndex = { value: 0 };
+
+  for (let i = 0; i < limit; i++) {
+    workers.push(worker(tasks, result, nextIndex));
+  }
+
+  await Promise.all(workers);
+  return result;
+}
+
+const tasks = [
+  () => Promise.resolve("A"),
+  () => Promise.resolve("B"),
+  () => Promise.resolve("C"),
+  () => Promise.resolve("D"),
+];
+
+const result = await runWithConcurrency(tasks, 2);
+
+console.log(result);
+ */
+
+/*
+async function process(tasks) {
+  return Promise.all(tasks.map((task) => task()));
+}
+
+async function processInBatches(tasks, limit) {
+  const result = [];
+
+  for (let i = 0; i < tasks; i += limit) {
+    const task = tasks.slice(i, i + limit);
+
+    const resolved = await process(task);
+
+    result.push(...resolved);
+  }
+
+  return result;
+}
+*/
+
+console.log("A"); // 1
+
+setTimeout(() => {
+  console.log("B"); // 5
 
   Promise.resolve().then(() => {
-    console.log("B");
+    console.log("C"); // 6
   });
-});
+}, 0);
 
 Promise.resolve().then(() => {
-  console.log("C");
+  console.log("D"); // 3
+
+  setTimeout(() => {
+    console.log("E"); // 7
+  }, 0);
 });
 
-console.log("D");
+queueMicrotask(() => {
+  console.log("F"); // 4
+});
+
+console.log("G"); // 2
+
