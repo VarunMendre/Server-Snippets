@@ -403,3 +403,4 @@ Function.prototype.myCustomBind = function (context, ...boundArgs) {
 
   return boundFunction;
 };
+

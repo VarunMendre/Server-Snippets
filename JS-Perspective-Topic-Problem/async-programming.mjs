@@ -381,6 +381,7 @@ async function processInBatches(tasks, limit) {
 }
 */
 
+/*
 console.log("A"); // 1
 
 setTimeout(() => {
@@ -404,4 +405,44 @@ queueMicrotask(() => {
 });
 
 console.log("G"); // 2
+
+*/
+
+const user = {
+  name: "Varun",
+};
+
+function greet(greeting) {
+  console.log(`${greeting}, ${this.name}`);
+}
+
+Function.prototype.myCall = function (context = {}, ...args) {
+  if (typeof this !== "function") throw new Error(this, " must be callable");
+
+  context.fn = this;
+  const result = context.fn(...args);
+
+  delete context.fn;
+
+  return result;
+};
+
+// greet.myCall(user, "Hello"); // Hello, Varun
+
+Function.prototype.myApply = function (context = {}, args = []) {
+  if (typeof this !== "function") throw new Error(this, "must be callable");
+
+  context.fn = this;
+  const result = context.fn(...(args || []));
+
+  delete context.fn;
+
+  return result;
+};
+
+function greet2(greeting, designation) {
+  console.log(`${greeting}, I'm ${this.name} a ${this.designation}`);
+}
+
+greet2.myApply(user, ["Hello", "Software Developer"]);
 
