@@ -408,6 +408,7 @@ console.log("G"); // 2
 
 */
 
+/*  Call, Apply & Bind Polyfills  
 const user = {
   name: "Varun",
 };
@@ -419,30 +420,286 @@ function greet(greeting) {
 Function.prototype.myCall = function (context = {}, ...args) {
   if (typeof this !== "function") throw new Error(this, " must be callable");
 
-  context.fn = this;
-  const result = context.fn(...args);
+  context = context || globalThis;
 
-  delete context.fn;
+  const funcKey = Symbol("fn");
+  context[funcKey] = this;
+
+  const result = context[funcKey](...args);
+
+  delete context[funcKey];
 
   return result;
 };
 
 // greet.myCall(user, "Hello"); // Hello, Varun
 
-Function.prototype.myApply = function (context = {}, args = []) {
-  if (typeof this !== "function") throw new Error(this, "must be callable");
+Function.prototype.myApply = function (context, args) {
+  if (typeof this !== "function") {
+    throw new TypeError("myApply: not callable");
+  }
 
-  context.fn = this;
-  const result = context.fn(...(args || []));
+  if (!Array.isArray(args)) {
+    throw new TypeError("args must be an array");
+  }
 
-  delete context.fn;
+  context = context || globalThis;
+
+  const funcKey = Symbol("fn");
+  context[funcKey] = this;
+
+  const result = context[funcKey](...args);
+  delete context[funcKey];
 
   return result;
 };
 
-function greet2(greeting, designation) {
-  console.log(`${greeting}, I'm ${this.name} a ${this.designation}`);
+function greet1(greeting, designation) {
+  console.log(`${greeting}, I'm ${this.name} a ${designation}`);
 }
 
-greet2.myApply(user, ["Hello", "Software Developer"]);
+
+greet1.myApply(user, ["Hello", "Software Developer"]) // Hello, I'm Varun a Software Developer
+
+Function.prototype.myBind = function (context, ...boundArgs) {
+  if (typeof this !== "function") throw new TypeError("myBind: not a callable");
+
+  const targetFunction = this;
+  const boundFunction = function (...args) {
+    return targetFunction.myApply(context, [...boundArgs, ...args]);
+  };
+
+  if (targetFunction.prototype)
+    boundFunction.prototype = Object.create(targetFunction.prototype);
+
+  return boundFunction;
+};
+
+function greet2(greeting, designation) {
+  console.log(`${greeting}, I'm ${this.name} a ${designation}`);
+}
+
+const resultFunction = greet2.myBind(user, "Hello");
+
+resultFunction("Software Developer"); //Hello, I'm Varun a Software Developer
+
+*/
+
+/*   Retry with Exponential Backoff
+
+// trying to fail this api always
+
+
+async function fetchExternalAPI() {
+  const response = await fetch("https://api.example.com/data");
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response;
+}
+
+async function retry(fn, maxRetries, delay) {
+  let lastError;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastError = err;
+
+      if (attempt < maxRetries) {
+        console.log("API failed to fetch on Attempt: ", attempt);
+        await new Promise((resolve) => setTimeout(resolve, delay * 2 ** attempt+1));
+      }
+    }
+  }
+
+  throw new Error(lastError);
+}
+ 
+
+const result = await retry(() => fetchExternalAPI(), 3, 1000);
+console.log(result);   
+*/
+/*
+- microtask queue: console.log("G"); 
+- process.nextTick queue: 
+- callback queue:   console.log("B") 
+*/
+
+// As per Module JS this is output :
+
+/* 
+
+console.log("A"); // 1
+
+setTimeout(() => {
+  console.log("B");  // 8
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("C");  // 3
+});
+
+process.nextTick(() => {
+  console.log("D"); // 5 
+});
+
+queueMicrotask(() => {
+  console.log("E"); // 4
+});
+
+process.nextTick(() => {
+  console.log("F"); // 6
+
+  Promise.resolve().then(() => {
+    console.log("G");  // 7
+  });
+});
+
+console.log("H"); // 2
+
+// final output in module.js  : A H C E D F G B
+
+
+*/
+
+
+/*
+const original = {
+  name: "Varun",
+  skills: ["JavaScript", "Node.js"],
+  address: {
+    city: "Pune",
+  },
+};
+
+const copy = { ...original };
+
+copy.name = "John";
+copy.skills.push("TypeScript");
+copy.address.city = "Mumbai";
+
+console.log(original.name); // Varun
+console.log(original.skills); // TypeScript
+console.log(original.address.city); // Mumbai
+*/
+
+
+// console.log("A");
+
+// const promise = new Promise((resolve, reject) => {
+//     console.log("B");
+
+//     resolve("C");
+
+//     console.log("D");
+// });
+
+// promise.then((value) => {
+//     console.log(value);
+// });
+
+// console.log("E");
+
+/*
+1. A
+2. B
+3. D
+4. E
+5. C
+*/
+
+
+
+
+// console.log("Start");
+
+// const promise = Promise.resolve("Resolved");
+
+// promise.then((value) => {
+//   console.log("Then 1:", value);
+// });
+
+// promise.then((value) => {
+//   console.log("Then 2:", value);
+// });
+
+// console.log("End");
+
+
+/*
+1. Start
+2. End
+3. Then 1: Resolved
+4. Then 2: Resolved
+*/
+
+
+// console.log("Start");
+
+// Promise.resolve(10)
+//     .then((value) => {
+//         console.log("A:", value);
+//         return value * 2;
+//     })
+//     .then((value) => {
+//         console.log("B:", value);
+//         return value + 5;
+//     })
+//     .then((value) => {
+//         console.log("C:", value);
+//     });
+
+// console.log("End");
+
+
+
+/*
+1. Start 
+2. End 
+3. A: 10
+4. B: 20
+5. C: 25
+*/
+
+
+
+
+// Promise.resolve(5)
+//   .then((value) => {
+//     console.log("A:", value);
+
+//     value * 2;
+//   })
+//   .then((value) => {
+//     console.log("B:", value);
+
+//     return value + 10;
+//   })
+//   .then((value) => {
+//     console.log("C:", value);
+//   });
+
+
+Promise.resolve(10)
+    .then((value) => {
+        console.log("A:", value);
+
+        throw new Error("Something went wrong");
+    })
+    .then((value) => {
+        console.log("B:", value);
+    })
+    .catch((error) => {
+        console.log("Caught:", error.message);
+
+        return 50;
+    })
+    .then((value) => {
+        console.log("C:", value);
+    });
+
+    
+
+
+
 
