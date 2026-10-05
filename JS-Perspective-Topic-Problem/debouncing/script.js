@@ -2,10 +2,10 @@ const inputElement = document.querySelector("input");
 
 const debounce = (func, delay) => {
   let timer;
-  return (...args) => {
+  return function (...args) {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      func(...args);
+      func.apply(this, args);
     }, delay);
   };
 };
