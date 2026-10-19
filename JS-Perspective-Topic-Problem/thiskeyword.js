@@ -51,6 +51,7 @@
 
 // obj.getFruits();
 
+/*
 const obj = {
   firstName: "Varun",
   lastName: "Mendre",
@@ -73,3 +74,5 @@ const obj = {
 
 obj.outerArrow();
 obj.getFruits();
+*/
+
