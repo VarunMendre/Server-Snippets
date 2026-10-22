@@ -199,6 +199,7 @@ doesOccur(arr);
 
 // console.log("abc" - 100);
 
+/*
 let value = 10;
 function a() {
   function b() {
@@ -210,3 +211,31 @@ function a() {
   b();
 }
 a(); // 10
+*/
+
+// if([] == false) {
+//   console.log("Varun");
+// }
+
+/*
+var a = 10;
+if (function echo() { }) {
+  a = a + typeof echo;
+} 
+
+console.log(a);
+
+*/
+
+function sum(a) {
+  return function (b) {
+    if (b === undefined) return a;
+    return sum(a + b);
+  };
+}
+
+const result1 = sum(1);
+const result2 = sum(1)(1);
+
+console.log(result1);
+console.log(result2);
