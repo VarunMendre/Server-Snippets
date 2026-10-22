@@ -80,6 +80,8 @@ console.log(characters);
 // const result = flatten(arr1);
 // console.log(result);
 
+/*  Exponential Backoff
+
 async function fetchRequest(url) {
   return fetch(url);
 }
@@ -130,3 +132,81 @@ async function exponentialBackoff(url, totalAttempt = 3, initialDelay = 1000) {
 exponentialBackoff("https://api.cloudvault.cloud/users")
   .then(console.log)
   .catch(console.error);
+*/
+
+// console.log({} + '[]');
+
+// console.log(2 - "2" + 3);
+
+/*
+var a = {
+  id: 104,
+  title: "Hello",
+  text: "Varun",
+}
+
+var b = {
+  id: 105,
+  title: "Hello World",
+}
+
+var c = { ...a, ...b };
+
+console.log(c);
+*/
+
+// const arr = ["rudra", "duaa"];
+
+/*
+function doesOccur(arr) {
+  let mpp = new Map();
+  let source = arr[1].split("");
+  for (let i = 0; i < source.length; i++) {
+    if (!mpp.has(source[i])) {
+      mpp.set(source[i], 1);
+    } else {
+      mpp.set(source[i], mpp.get(source[i]) + 1);
+    }
+  }
+
+  let searchArr = arr[0].split("");
+  for (let i = 0; i < searchArr.length; i++) {
+    if (!mpp.has(searchArr[i])) {
+      mpp.set(searchArr[i], 1);
+    } else {
+      mpp.set(searchArr[i], mpp.get(searchArr[i]) + 1);
+    }
+  }
+
+  let isValid = true;
+  mpp.forEach((val) => {
+    console.log(val);
+    if (val > 2) isValid = false;
+  });
+
+  console.log(isValid);
+}
+
+doesOccur(arr);
+
+*/
+
+// const arr = [10, 13, 17, 18, 21, 14];
+
+// const totalSum = arr.reduce((acc, cur) => acc + cur, 0);
+
+// console.log(totalSum);
+
+// console.log("abc" - 100);
+
+let value = 10;
+function a() {
+  function b() {
+    function c() {
+      console.log(value);
+    }
+    c();
+  }
+  b();
+}
+a(); // 10
