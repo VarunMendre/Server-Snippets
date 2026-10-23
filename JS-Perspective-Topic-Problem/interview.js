@@ -227,6 +227,7 @@ console.log(a);
 
 */
 
+/*
 function sum(a) {
   return function (b) {
     if (b === undefined) return a;
@@ -239,3 +240,39 @@ const result2 = sum(1)(1);
 
 console.log(result1);
 console.log(result2);
+*/
+
+/*
+function fun(a, ...b) {
+  console.log(typeof a)
+  console.log(typeof b)
+}
+
+fun(10, 20, "Varun", 50);
+*/
+
+
+let arr1 = [1, 2, "Varun", "Mendre", "H", "E", "L", 7, 3];
+
+function separation(arr) {
+  let words = [];
+  let characters = [];
+
+  for (let c of arr) {
+    if (typeof c === "string") {
+      if (c.length > 1)
+        words.push(c);
+      else
+        characters.push(c);
+    }
+  }
+
+  return [words, characters];
+}
+
+
+let [wordResult, characterResult] = separation(arr1);
+
+console.log(wordResult);
+console.log(characterResult);
+
