@@ -287,6 +287,9 @@ class Node {
 
 class LRUCache {
   constructor(capacity) {
+    if (!Number.isInteger(capacity) || capacity <= 0)
+      throw new Error("capacity cannot be negative");
+
     this.capacity = capacity;
     this.mpp = new Map();
     this.head = new Node(null, null);
@@ -296,17 +299,107 @@ class LRUCache {
     this.tail.prev = this.head;
   }
 
-  moveToFront(key, node) {
-    
+  removeNode(node) {
+    node.prev.next = node.next;
+    node.next.prev = node.prev;
   }
 
-  removeNode(node) {}
+  addToFront(node) {
+    const temp = this.head.next;
 
-  addToFront(node) {}
+    this.head.next = node;
+    node.prev = this.head;
 
-  evictLRU() {}
+    temp.prev = node;
+    node.next = temp;
+  }
 
-  get(key) {}
+  moveToFront(node) {
+    this.removeNode(node);
+    this.addToFront(node);
+  }
 
-  put(key, value) {}
+  evictLRU() {
+    const lruNode = this.tail.prev;
+    this.removeNode(lruNode);
+    this.mpp.delete(lruNode.key);
+  }
+
+  get(key) {
+    if (!this.mpp.has(key)) return -1;
+
+    const node = this.mpp.get(key);
+    this.moveToFront(node);
+
+    return node.value;
+  }
+
+  put(key, value) {
+    if (this.mpp.has(key)) {
+      const node = this.mpp.get(key);
+      node.value = value;
+
+      this.moveToFront(node);
+    } else {
+      const node = new Node(key, value);
+
+      this.mpp.set(key, node);
+      this.addToFront(node);
+
+      if (this.mpp.size > this.capacity) this.evictLRU();
+    }
+  }
 }
+
+
+function printCache(cache, operation) {
+  const items = [];
+  let current = cache.head.next;
+
+  while (current !== cache.tail) {
+    items.push(`${current.key}:${current.value}`);
+    current = current.next;
+  }
+
+  console.log(`\n${operation}`);
+  console.log("Cache (MRU → LRU):", items);
+  console.log("Map keys:", [...cache.mpp.keys()]);
+}
+
+const cache = new LRUCache(1);
+
+console.log("=== Test 1: Insert two entries ===");
+
+cache.put(1, 100);
+printCache(cache, "put(1, 100)");
+
+cache.put(2, 200);
+printCache(cache, "put(2, 200)");
+
+console.log("\n=== Test 2: Access an existing key ===");
+
+console.log("get(1) =", cache.get(1));
+printCache(cache, "After get(1)");
+
+console.log("\n=== Test 3: Insert when cache is full ===");
+
+cache.put(3, 300);
+printCache(cache, "put(3, 300)");
+
+console.log("\n=== Test 4: Access an evicted key ===");
+
+console.log("get(2) =", cache.get(2));
+printCache(cache, "After get(2)");
+
+console.log("\n=== Test 5: Update an existing key ===");
+
+cache.put(1, 111);
+printCache(cache, "put(1, 111)");
+
+console.log("get(1) =", cache.get(1));
+printCache(cache, "After get(1)");
+
+console.log("\n=== Test 6: Access a missing key ===");
+
+console.log("get(99) =", cache.get(99));
+printCache(cache, "After get(99)");
