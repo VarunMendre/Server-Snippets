@@ -251,9 +251,9 @@ function fun(a, ...b) {
 fun(10, 20, "Varun", 50);
 */
 
+// let arr1 = [1, 2, "Varun", "Mendre", "H", "E", "L", 7, 3];
 
-let arr1 = [1, 2, "Varun", "Mendre", "H", "E", "L", 7, 3];
-
+/*
 function separation(arr) {
   let words = [];
   let characters = [];
@@ -269,10 +269,44 @@ function separation(arr) {
 
   return [words, characters];
 }
+*/
 
+// let [wordResult, characterResult] = separation(arr1);
 
-let [wordResult, characterResult] = separation(arr1);
+// console.log(wordResult);
+// console.log(characterResult);
 
-console.log(wordResult);
-console.log(characterResult);
+class Node {
+  constructor(key, value) {
+    this.next = null;
+    this.prev = null;
+    this.key = key;
+    this.value = value;
+  }
+}
 
+class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.mpp = new Map();
+    this.head = new Node(null, null);
+    this.tail = new Node(null, null);
+
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+  }
+
+  moveToFront(key, node) {
+    
+  }
+
+  removeNode(node) {}
+
+  addToFront(node) {}
+
+  evictLRU() {}
+
+  get(key) {}
+
+  put(key, value) {}
+}
