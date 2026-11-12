@@ -166,4 +166,4 @@ class JSONReportGenerator extends ReportGenerator {
 // generate & saveReport method contains behaviour shared by every report generator
 // But the formatData() is abstract because each report type formats it data differently, so it mush be implemented by subclasses.
 
-
+  
