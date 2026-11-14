@@ -15,7 +15,7 @@ All method calls operate on the same object. For example, accelerating by 20 and
 
 */
 
-/* solution:
+// solution:
 
 class Car {
   private brand: string;
@@ -51,5 +51,5 @@ class Car {
     return `${this.brand} ${this.model} at ${this.speed} km/h`;
   }
 }
-*/
+
 
