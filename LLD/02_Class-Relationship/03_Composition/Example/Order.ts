@@ -54,17 +54,19 @@ class Order {
     );
     this.items.push(item);
     this.totalAmount += item.getLineTotal();
-    }
-    
-    removeItem(productId: string): void {
-        this.ensureNotShipped();
-        const index = this.items.findIndex((item) => item.getProductId() === productId);
+  }
 
-        if (index !== -1) {
-            const [removed] = this.items.splice(index, 1);
-            this.totalAmount -= removed.getLineTotal();
-        }
+  removeItem(productId: string): void {
+    this.ensureNotShipped();
+    const index = this.items.findIndex(
+      (item) => item.getProductId() === productId,
+    );
+
+    if (index !== -1) {
+      const [removed] = this.items.splice(index, 1);
+      this.totalAmount -= removed.getLineTotal();
     }
+  }
 
   getItems(): readonly OrderItem[] {
     return [...this.items];
